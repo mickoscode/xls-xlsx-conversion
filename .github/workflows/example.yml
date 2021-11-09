@@ -1,0 +1,17 @@
+name: xls-to-xlsx
+
+# Controls when the action will run. 
+on:
+# Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    branches:
+    - main
+
+jobs:
+  build:
+    runs-on:  windows-2019
+
+
+    steps:
+      - name: Install Office
+        run: choco install office365business
