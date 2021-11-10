@@ -17,10 +17,39 @@ jobs:
         uses: actions/checkout@v2
         with:
           lfs: 'true'
-      - name: pwd
+          
+      - name: pwd & ls
         run: |
           pwd
           ls
+          
+      - name: Install Office
+        run: choco install office365business
+          
+      - name: Convert XLS file
+        run: |
+          Add-Type -AssemblyName Microsoft.Office.Interop.Excel
+          $xlFixedFormat = [Microsoft.Office.Interop.Excel.XlFileFormat]::xlOpenXMLWorkbook
+          write-host $xlFixedFormat
+          $excel = New-Object -ComObject excel.application
+          $excel.visible = $true
+          $filetype ="*xls"
+          $workbook = $excel.workbooks.open("D:\a\xls-xlsx-conversion\xls-xlsx-conversion\data\The Products.xls")
+          $path += ".xlsx"
+          $workbook.saveas($path, $xlFixedFormat)
+          $workbook.close()
+          $excel.Quit()
+          $excel = $null
+          [gc]::collect()
+          [gc]::WaitForPendingFinalizers()
+        shell: powershell
+        
+      - name: ls data
+        run: |
+          ls .\data\
+          
+          
+        
            
       #- name: Install Office
       #  run: choco install office365business
