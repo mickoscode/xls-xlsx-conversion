@@ -18,8 +18,9 @@ jobs:
         with:
           lfs: 'true'
       - name: pwd
-        run:
+        run: |
           pwd
+          ls
            
       #- name: Install Office
       #  run: choco install office365business
